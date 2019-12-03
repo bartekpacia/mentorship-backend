@@ -18,7 +18,7 @@ class MentorshipRelationDAO:
     """
 
     MAXIMUM_MENTORSHIP_DURATION = timedelta(weeks=24)  # 6 months = approximately 6*4
-    MINIMUM_MENTORSHIP_DURATION = timedelta(weeks=4)
+    MINIMUM_MENTORSHIP_DURATION = timedelta(seconds=60)
 
     def create_mentorship_relation(self, user_id, data):
         """Creates a relationship between two users.
@@ -50,8 +50,8 @@ class MentorshipRelationDAO:
         end_date_datetime = datetime.fromtimestamp(end_date_timestamp)
 
         now_datetime = datetime.now()
-        if end_date_datetime < now_datetime:
-            return messages.END_TIME_BEFORE_PRESENT, 400
+        # if end_date_datetime < now_datetime:
+        #     return messages.END_TIME_BEFORE_PRESENT, 400
 
         # business logic constraints
 
@@ -59,8 +59,8 @@ class MentorshipRelationDAO:
         if max_relation_duration > self.MAXIMUM_MENTORSHIP_DURATION:
             return messages.MENTOR_TIME_GREATER_THAN_MAX_TIME, 400
 
-        if max_relation_duration < self.MINIMUM_MENTORSHIP_DURATION:
-            return messages.MENTOR_TIME_LESS_THAN_MIN_TIME, 400
+        # if max_relation_duration < self.MINIMUM_MENTORSHIP_DURATION:
+        #     return messages.MENTOR_TIME_LESS_THAN_MIN_TIME, 400
 
         # validate if mentor user exists
         mentor_user = UserModel.find_by_id(mentor_id)
