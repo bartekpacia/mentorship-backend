@@ -33,6 +33,23 @@ class TestDeleteTaskApi(TasksBaseTestCase):
         deleted_task = self.tasks_list_1.find_task_by_id(2)
         self.assertIsNone(deleted_task)
 
+    def test_non_existent_task_deletion_api(self):
+
+        non_existent_task = self.tasks_list_1.find_task_by_id(999)
+        self.assertIsNone(non_existent_task)
+
+        auth_header = get_test_request_header(self.first_user.id)
+        expected_response = messages.TASK_DOES_NOT_EXIST
+        actual_response = self.client.delete('/mentorship_relation/%s.task%s'
+                                             % (self.mentorship_relation_w_admin_user, 2),
+                                             follow_redirects=True, headers=auth_header)
+
+        self.assertEqual(404, actual_response.status_code)
+        self.assertDictEqual(expected_response, json.loads('{"message": "Task does not exist."}'))
+
+        deleted_task = None
+        self.assertIsNone(deleted_task)
+
 
 if __name__ == "__main__":
     unittest.main()
