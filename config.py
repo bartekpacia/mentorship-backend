@@ -6,6 +6,9 @@ class BaseConfig(object):
     DEBUG = False
     TESTING = False
 
+    # internationalization settings
+    LANGUAGES = ['en', 'pl']
+
     # SQLAlchemy settings
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     SQLALCHEMY_TRACK_MODIFICATIONS = False

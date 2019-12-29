@@ -1,4 +1,6 @@
-from flask import Flask
+from flask import Flask, request
+
+from app.i18n.babel_extension import babel
 from config import get_env_config
 
 
@@ -37,6 +39,11 @@ application = create_app(get_env_config())
 def create_tables():
     from app.database.sqlalchemy_extension import db
     db.create_all()
+
+
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(application.config['LANGUAGES'])
 
 
 if __name__ == "__main__":
