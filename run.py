@@ -1,5 +1,6 @@
 from flask import Flask
 from config import get_env_config
+from flask_cors import CORS
 
 
 def create_app(config_filename):
@@ -28,6 +29,7 @@ def create_app(config_filename):
 
 
 application = create_app(get_env_config())
+CORS(application)
 
 
 @application.before_first_request
